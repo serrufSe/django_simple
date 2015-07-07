@@ -1,0 +1,10 @@
+<h2>Entries:</h2>
+{% include list %}
+{% load staticfiles %}
+
+{% block js %}
+
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <script src="{% static 'endless_pagination/js/endless-pagination.js' %}"></script>
+
+{% endblock %}
