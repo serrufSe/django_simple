@@ -1,0 +1,17 @@
+{% load endless %}
+
+{% paginate object_list %}
+{% for entry in object_list %}
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin non arcu efficitur, iaculis ex a, ultricies nunc.Nunc in dolor enim. Donec lobortis at orci in euismod. Nam velit tortor, elementum nec arcu ut, luctus molestie nisl. Pellentesque consequat id urna sollicitudin condimentum. Curabitur et elementum turpis. Morbi tincidunt varius velit, at pellentesque nisi pretium vitae. Vestibulum eget malesuada tellus. Vestibulum tellus turpis, ornare eu blandit in, eleifend ac ligula.
+
+Duis feugiat vestibulum sem, in rutrum metus vehicula eu. Mauris porttitor nibh lectus, ut scelerisque orci consectetur sit amet. Suspendisse potenti. Cras lacinia tortor ut enim commodo tempor et ac dolor. Aliquam eget tellus finibus, vestibulum ipsum sed, rhoncus nunc. Nullam id interdum tortor, ac feugiat ligula. Maecenas fringilla faucibus dapibus. Nunc tempor sit amet odio sit amet dictum. Nunc maximus tortor eu dui cursus, eu mollis erat cursus. Nulla quis aliquam orci, ut pellentesque diam. Proin id ligula ac sapien auctor pretium.
+
+Sed eget dui in ex accumsan laoreet eu a nisl. Sed eget aliquet metus, sed accumsan leo. Aliquam erat volutpat. Etiam ac ex fringilla, dictum ex eget, luctus orci. Mauris at convallis neque. Nulla in sem tincidunt augue ultrices iaculis. In vel tellus sem. Phasellus et felis blandit, commodo libero nec, rutrum mi. Etiam eu purus enim. In sollicitudin eget orci scelerisque gravida. In a neque eget turpis tristique tincidunt sit amet id nisi.
+
+Aenean euismod congue nisl ac auctor. Praesent sit amet mauris ullamcorper, accumsan lacus nec, sagittis orci. Etiam interdum sollicitudin egestas. Nulla hendrerit quam at elit semper, vel blandit nisl pulvinar. Sed porta ullamcorper felis. Ut metus mi, lobortis aliquet nisl sit amet, finibus cursus urna. Proin vel fringilla sapien. Pellentesque vel condimentum ipsum. Morbi quis ex eu est mollis ultricies id elementum velit. Duis mi felis, dictum in ornare ut, varius at elit. Nulla rhoncus fermentum arcu at venenatis. Phasellus id lectus id tortor tempor lacinia eget a tortor.
+
+Sed mattis facilisis ex, eu consequat ligula ornare nec. Cras sagittis tincidunt sem, nec lobortis dolor tempus nec. Etiam commodo enim et sapien blandit auctor. Ut nec dolor at purus malesuada feugiat sed ut turpis. Sed faucibus nisi nec dictum vestibulum. Aliquam sit amet turpis at lectus malesuada varius. Nam sagittis erat a nisl aliquet, nec pharetra ex consectetur. Vestibulum libero ligula, interdum vitae lorem et, finibus volutpat purus. Cras dapibus nunc vel urna vehicula, vitae varius ligula pellentesque. Morbi commodo, dui vitae placerat mattis, quam lectus vulputate erat, non rhoncus mauris mauris quis enim. </p>
+    <p>{{entry.number}}</p>
+{% endfor %}
+
+{% show_pages %}
