@@ -1,3 +1,7 @@
+{% extends "polls/base.html" %}
+
+{% block content %}
+
 <h2>Entries:</h2>
 {% include list %}
 {% load staticfiles %}
@@ -5,5 +9,13 @@
 {% block js %}
 
     <script src="{% static 'endless_pagination/js/endless-pagination.js' %}"></script>
+    <script>
+        $.endlessPaginate({
+            paginateOnScroll: true,
+            paginateOnScrollMargin: 20
+        });
+    </script>
+
+{% endblock %}
 
 {% endblock %}
