@@ -1,0 +1,15 @@
+<form action="/card/ajax_create" method="post" id="card_form">
+    {% csrf_token %}
+    {{ card_form }}
+    <input type="submit" value="Submit" />
+</form>
+
+<div id="error_summary"></div>
+
+{% load staticfiles %}
+
+{% block js %}
+
+    <script src="{% static 'polls/main.js' %}"></script>
+
+{% endblock %}
