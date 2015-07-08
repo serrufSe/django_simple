@@ -1,0 +1,15 @@
+{% extends "polls/base.html" %}
+
+{% block content %}
+
+{{object.name}}<br>
+
+<div id="company_card_list">
+{% for card in object.card_set.all %}
+    {{card.number}}<br>
+{% endfor %}
+</div>
+
+{% include "card/card_create_ajax.html" %}
+
+{% endblock %}
