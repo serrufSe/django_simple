@@ -9,6 +9,11 @@ class SaleXMLParser(object):
 
 	def get_sale_xml(self):
 		root = self.xml_parser.getroot()
+
 		for sale in root.findall(self.root_tag):
+			sale_info = []
+
 			for attr in sale.attrib:
-				yield {'attribute': attr, 'value': sale.get(attr)}
+				sale_info.append({attr, sale.get(attr)})
+
+			yield sale_info
