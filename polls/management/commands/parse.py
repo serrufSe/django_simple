@@ -24,7 +24,7 @@ class Command(BaseCommand):
 					ET.parse(local_file)
 				),
 				XMLAttributeToSaleFieldConverter(
-					[f.name for f in Sale._meta.fields() if not isinstance(f, AutoField)],
+					[f.name for f in Sale._meta.fields if not isinstance(f, AutoField)],
 					company_id
 				),
 			)
