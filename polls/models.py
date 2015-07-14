@@ -94,13 +94,13 @@ class Shop(models.Model):
 class Card(models.Model):
 	number = models.CharField(max_length=200)
 	company = models.ForeignKey(Company)
-	shop = models.ForeignKey(Shop, null=True)
+	shop = models.ForeignKey(Shop, null=True, blank=True)
 
 
 class Seller(models.Model):
 	name = models.CharField(max_length=200)
 	second_name = models.CharField(max_length=200)
-	last_name = models.CharField(max_length=200, null=True)
+	last_name = models.CharField(max_length=200, null=True, blank=True)
 	company = models.ForeignKey(Company)
 
 class Sale(models.Model):

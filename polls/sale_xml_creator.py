@@ -13,3 +13,5 @@ class SaleXMLCreator(object):
 			form = SaleForm(sale_data)
 			if form.is_valid():
 				form.save()
+			else:
+				print(form.errors)

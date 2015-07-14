@@ -1,4 +1,6 @@
+# -*- coding: utf-8 -*-
 from django.core.exceptions import ObjectDoesNotExist
+from django.db.models import Model
 from polls.models import Sale, Card, Seller, Shop
 
 
@@ -6,7 +8,7 @@ class XMLAttributeToSaleFieldConverter:
 
 	def __init__(self, sale_fields, company_id):
 		self.sale_fields = sale_fields
-		self.sale_data = []
+		self.sale_data = {}
 		self.attribute_map = {
 			Sale._meta.get_field('article').name: SaleField('Артикул'),
 			Sale._meta.get_field('title').name: SaleField('Наименование'),
@@ -28,18 +30,12 @@ class XMLAttributeToSaleFieldConverter:
 	def get_data(self, xml_data):
 
 		for field in self.sale_fields:
-			field = self.attribute_map[field]
-			self.sale_data[field] = field.resolve_value(xml_data)
+			sale_field = self.attribute_map[field]
+			self.sale_data[field] = sale_field.resolve_value(xml_data)
 		return self.sale_data
 
 
-class Field:
-
-	def resolve_value(self, xml_data):
-		pass
-
-
-class SimpleXMLField(Field):
+class SimpleXMLField:
 
 	def __init__(self, xml_key):
 		self.xml_key = xml_key
@@ -50,49 +46,52 @@ class SaleField(SimpleXMLField):
 		return xml_data[self.xml_key]
 
 
-class DependOnCompanyForeignSaleField(SimpleXMLField):
+class DependOnCompanyForeignSaleField(SaleField):
 
 	def __init__(self, xml_key, company_id):
-		super().__init__(xml_key)
+		super(DependOnCompanyForeignSaleField, self).__init__(xml_key)
 		self.company_id = company_id
 
+class ForeignFieldMixin:
+	model = Model
 
-class CardField(DependOnCompanyForeignSaleField):
-
-	def resolve_value(self, xml_data):
-		card_number = super().resolve_value(xml_data)
-		kwargs = {'number': card_number, 'company': self.company_id}
+	def get_instance_pk(self, kwargs):
 		try:
-			card_model = Card.objects.get(kwargs)
+			instance = self.model.objects.get(**kwargs)
+			return instance.id
 		except ObjectDoesNotExist:
-			card_model = Card(kwargs)
-			card_model.save()
-		finally:
-			return card_model.id
+			new_instance = self.model(**kwargs)
+			new_instance.full_clean()
+			new_instance.save()
+			return new_instance.id
 
-
-class SellerField(DependOnCompanyForeignSaleField):
+class CardField(DependOnCompanyForeignSaleField, ForeignFieldMixin):
+	model = Card
 
 	def resolve_value(self, xml_data):
-		seller_info = super().resolve_value(xml_data).split(" ")
+		card_number = super(CardField, self).resolve_value(xml_data)
+		kwargs = {'number': card_number, 'company_id': self.company_id}
+		return self.get_instance_pk(kwargs)
+
+
+class SellerField(DependOnCompanyForeignSaleField, ForeignFieldMixin):
+	model = Seller
+
+	def resolve_value(self, xml_data):
+		seller_info = super(SellerField, self).resolve_value(xml_data).split(" ")
 
 		if len(seller_info) == 3:
-			second_name, fist_name, last_name = super().resolve_value(xml_data).split(" ")
-			kwargs = {'name': fist_name, 'second_name': second_name, 'last_name': last_name, 'company': self.company_id}
+			second_name, fist_name, last_name = super(SellerField, self).resolve_value(xml_data).split(" ")
+			kwargs = {'name': fist_name, 'second_name': second_name, 'last_name': last_name, 'company_id': self.company_id}
 		else:
-			second_name, fist_name = super().resolve_value(xml_data).split(" ")
-			kwargs = {'name': fist_name, 'second_name': second_name, 'company': self.company_id}
+			second_name, fist_name = super(SellerField, self).resolve_value(xml_data).split(" ")
+			kwargs = {'name': fist_name, 'second_name': second_name, 'company_id': self.company_id}
 
-		try:
-			seller = Seller.objects.get(kwargs)
-		except ObjectDoesNotExist:
-			seller = Seller(kwargs)
-			seller.save()
-		finally:
-			return seller.id
+		return self.get_instance_pk(kwargs)
 
 
-class ShopSaleField(Field):
+class ShopSaleField(ForeignFieldMixin):
+	model = Shop
 
 	def __init__(self, shop_name_field, shop_code_field, company_id):
 		self.shop_name = shop_name_field
@@ -100,11 +99,6 @@ class ShopSaleField(Field):
 		self.company_id = company_id
 
 	def resolve_value(self, xml_data):
-		kwargs = {'code': self.shop_code, 'name': self.shop_name, 'company': self.company_id}
-		try:
-			shop = Shop.objects.get(kwargs)
-		except ObjectDoesNotExist:
-			shop = Shop(kwargs)
-			shop.save()
-		finally:
-			return shop.id
+		kwargs = {'code': self.shop_code, 'name': self.shop_name, 'company_id': self.company_id}
+
+		return self.get_instance_pk(kwargs)
