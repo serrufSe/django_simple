@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from .forms import SaleForm, SaleFormXML
+from .forms import SaleFormXML
 
 
 class SaleXMLCreator(object):
