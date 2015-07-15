@@ -10,12 +10,6 @@ class CompanyForm(ModelForm):
 		fields = '__all__'
 
 
-class SaleForm(ModelForm):
-	class Meta:
-		model = Sale
-		fields = '__all__'
-
-
 class SaleFormXML(ModelForm):
 
 	date_pattern = "%d.%m.%Y %H:%M:%S"
