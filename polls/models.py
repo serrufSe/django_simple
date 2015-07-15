@@ -105,11 +105,13 @@ class Seller(models.Model):
 
 class Sale(models.Model):
 
-	RECEIPT_TYPE_SALE = 1
-	RECEIPT_TYPE_RETURN = 2
+	RECEIPT_TYPE_SALE_KEY = 1
+	RECEIPT_TYPE_RETURN_KEY = 2
+	RECEIPT_TYPE_SALE_NAME = u'Продажа'
+	RECEIPT_TYPE_RETURN_NAME = u'Возврат'
 	RECEIPT_TYPE = (
-		(RECEIPT_TYPE_SALE, u'Продажа'),
-		(RECEIPT_TYPE_RETURN, u'Возврат')
+		(RECEIPT_TYPE_SALE_KEY, RECEIPT_TYPE_SALE_NAME),
+		(RECEIPT_TYPE_RETURN_KEY, RECEIPT_TYPE_RETURN_NAME)
 	)
 
 	article = models.CharField(max_length=200)
@@ -127,4 +129,10 @@ class Sale(models.Model):
 	return_date = models.PositiveIntegerField(blank=True, null=True)
 	card = models.ForeignKey(Card)
 	seller = models.ForeignKey(Seller)
+
+	def get_type_key_by_name(self, name):
+		for type_tuple in self.RECEIPT_TYPE:
+			if name in type_tuple:
+				return type_tuple[0]
+		raise IndexError('Value out of valid type')
 
