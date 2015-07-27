@@ -13,4 +13,6 @@ urlpatterns = patterns('',
 	url(r'^company/view/(?P<pk>[0-9]+)/$', views.CompanyView.as_view(), name='company_view'),
 	url(r'^card/$', views.CardIndex.as_view(), name="card_index"),
 	url(r'^card/ajax_create', views.card_create_ajax, name="card_create_ajax"),
+	url(r'^sale/$', views.SaleList.as_view(), name="sale_list"),
+	url(r'^sale/update/(?P<pk>[0-9]+)/$', views.sale_update, name='sale_update')
 )

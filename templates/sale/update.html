@@ -1,0 +1,19 @@
+{% extends "polls/base.html" %}
+{% load staticfiles %}
+{% block js %}
+
+    <script src="{% static 'polls/jquery.datetimepicker.js' %}"></script>
+    <script>
+        $(document).ready(function(){
+            jQuery('#id_transaction_date').datetimepicker();
+        });
+    </script>
+
+{% endblock %}
+<link rel="stylesheet" type="text/css" href="{% static 'polls/jquery.datetimepicker.css' %}" >
+
+{% block content %}
+
+{{ form }}
+
+{% endblock %}

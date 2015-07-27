@@ -130,6 +130,9 @@ class Sale(models.Model):
 	card = models.ForeignKey(Card)
 	seller = models.ForeignKey(Seller)
 
+	def __str__(self):
+		return self.title
+
 	def get_type_key_by_name(self, name):
 		for type_tuple in self.RECEIPT_TYPE:
 			if name in type_tuple:
