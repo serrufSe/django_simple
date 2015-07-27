@@ -1,2 +1,2 @@
 mysite/settings.py
-polls/upload
+polls/upload/*.xml
