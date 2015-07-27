@@ -127,7 +127,7 @@ class Sale(models.Model):
 	receipt_type = models.PositiveSmallIntegerField(RECEIPT_TYPE)
 	receipt_number_return = models.CharField(max_length=200, blank=True, null=True)
 	return_date = models.PositiveIntegerField(blank=True, null=True)
-	card = models.ForeignKey(Card)
+	card = models.ForeignKey(Card, null=True, blank=True)
 	seller = models.ForeignKey(Seller)
 
 	def get_type_key_by_name(self, name):

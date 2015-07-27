@@ -70,8 +70,11 @@ class CardField(DependOnCompanyForeignSaleField, ForeignFieldMixin):
 
 	def resolve_value(self, xml_data):
 		card_number = super(CardField, self).resolve_value(xml_data)
-		kwargs = {'number': card_number, 'company_id': self.company_id}
-		return self.get_instance_pk(kwargs)
+		if (card_number):
+			kwargs = {'number': card_number, 'company_id': self.company_id}
+			return self.get_instance_pk(kwargs)
+		else:
+			return None
 
 
 class SellerField(DependOnCompanyForeignSaleField, ForeignFieldMixin):
